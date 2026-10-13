@@ -3,13 +3,19 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: TechSpace storefront, local accounts, and private orders
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: products
+    description: Database-backed store catalog
+  - name: auth
+    description: Local account and session operations
+  - name: orders
+    description: Authenticated customer orders
 paths:
   /healthz:
     get:
@@ -24,7 +30,222 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      summary: List available products
+      responses:
+        "200":
+          description: Available products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "503":
+          description: Database unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /products/{productId}:
+    get:
+      operationId: getProduct
+      tags: [products]
+      summary: Get a product by its ID
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/signup:
+    post:
+      operationId: signUp
+      tags: [auth]
+      summary: Create an account and start a session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignUpInput"
+      responses:
+        "201":
+          description: Account created
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: Signed JWT session cookie marked HttpOnly and SameSite
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Invalid account details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Email already registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/login:
+    post:
+      operationId: logIn
+      tags: [auth]
+      summary: Verify an account and start a session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogInInput"
+      responses:
+        "200":
+          description: Signed in
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: Signed JWT session cookie marked HttpOnly and SameSite
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Invalid email or password
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/me:
+    get:
+      operationId: getCurrentUser
+      tags: [auth]
+      summary: Get the current authenticated account
+      security:
+        - sessionCookie: []
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicUser"
+        "401":
+          description: No valid session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/logout:
+    post:
+      operationId: logOut
+      tags: [auth]
+      summary: End the current session
+      responses:
+        "200":
+          description: Session ended
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: Expired session cookie
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResponse"
+  /orders:
+    get:
+      operationId: listMyOrders
+      tags: [orders]
+      summary: List only the authenticated user's orders
+      security:
+        - sessionCookie: []
+      responses:
+        "200":
+          description: Orders belonging to the authenticated account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+        "401":
+          description: No valid session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: createOrder
+      tags: [orders]
+      summary: Create a pending order for the authenticated user
+      security:
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlaceOrderInput"
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: No valid session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: A selected product no longer exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: techspace_session
   schemas:
     HealthStatus:
       type: object
@@ -33,4 +254,93 @@ components:
           type: string
       required:
         - status
+    PublicUser:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        email: { type: string, format: email }
+        createdAt: { type: string, format: date-time }
+      required: [id, name, email, createdAt]
+    Product:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        nameAr: { type: string }
+        description: { type: string }
+        category: { type: string }
+        price: { type: number, minimum: 0 }
+        image: { type: string }
+        tag: { type: ["string", "null"] }
+        createdAt: { type: string, format: date-time }
+      required: [id, name, nameAr, description, category, price, image, createdAt]
+    OrderItem:
+      type: object
+      properties:
+        productId: { type: string }
+        name: { type: string }
+        nameAr: { type: string }
+        quantity: { type: integer, minimum: 1 }
+        price: { type: number, minimum: 0 }
+      required: [productId, name, nameAr, quantity, price]
+    Order:
+      type: object
+      properties:
+        id: { type: string }
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+        total: { type: number, minimum: 0 }
+        currency: { type: string, enum: [KWD] }
+        status: { type: string, enum: [pending, paid] }
+        createdAt: { type: string, format: date-time }
+      required: [id, items, total, currency, status, createdAt]
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/PublicUser"
+      required: [user]
+    ActionResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+      required: [success]
+    ErrorResponse:
+      type: object
+      properties:
+        code: { type: string }
+        message: { type: string }
+      required: [code, message]
+    SignUpInput:
+      type: object
+      properties:
+        name: { type: string, minLength: 1, maxLength: 100 }
+        email: { type: string, format: email }
+        password: { type: string, minLength: 8, maxLength: 128 }
+      required: [name, email, password]
+    LogInInput:
+      type: object
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, minLength: 1, maxLength: 128 }
+      required: [email, password]
+    PlaceOrderInput:
+      type: object
+      properties:
+        items:
+          type: array
+          minItems: 1
+          maxItems: 30
+          items:
+            $ref: "#/components/schemas/CartItemInput"
+      required: [items]
+    CartItemInput:
+      type: object
+      properties:
+        productId: { type: string, minLength: 1 }
+        quantity: { type: integer, minimum: 1, maximum: 20 }
+      required: [productId, quantity]
 

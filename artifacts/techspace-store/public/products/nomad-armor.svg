@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="700" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#192B48"/>
+      <stop offset="1" stop-color="#080D18"/>
+    </linearGradient>
+    <linearGradient id="bag" x1="240" y1="190" x2="560" y2="660" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#253754"/>
+      <stop offset="1" stop-color="#101A2B"/>
+    </linearGradient>
+    <linearGradient id="trim" x1="280" y1="250" x2="510" y2="590" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00F5D4"/>
+      <stop offset="1" stop-color="#087E9D"/>
+    </linearGradient>
+    <filter id="shadow" x="180" y="150" width="460" height="600" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+  <rect width="800" height="800" rx="36" fill="url(#bg)"/>
+  <circle cx="568" cy="190" r="114" fill="#FF007A" fill-opacity=".12"/>
+  <circle cx="236" cy="604" r="180" fill="#00F5D4" fill-opacity=".08"/>
+  <ellipse cx="410" cy="675" rx="174" ry="38" fill="#000" fill-opacity=".5" filter="url(#shadow)"/>
+  <path d="M311 250c0-55 44-99 99-99s99 44 99 99v39h-48v-39c0-28-23-51-51-51s-51 23-51 51v39h-48z" fill="#344765" stroke="#00F5D4" stroke-opacity=".5" stroke-width="5"/>
+  <path d="M266 304c0-34 28-62 62-62h164c34 0 62 28 62 62l25 292c4 45-31 83-76 83H317c-45 0-80-38-76-83z" fill="url(#bag)" stroke="#4B6383" stroke-width="7"/>
+  <path d="M279 357h262l20 237c3 30-20 55-50 55H308c-30 0-53-25-50-55z" fill="#142238" stroke="url(#trim)" stroke-width="5"/>
+  <path d="M298 379h224v158H298z" fill="#1C2C45" stroke="#405875" stroke-width="4"/>
+  <path d="M341 382v-26c0-15 12-27 27-27h84c15 0 27 12 27 27v26" stroke="#00F5D4" stroke-width="7" stroke-linecap="round"/>
+  <path d="M399 434h22v55h-22z" rx="8" fill="#00F5D4" fill-opacity=".9"/>
+  <path d="M270 393l-29 49M537 393l29 49" stroke="#7186A4" stroke-width="12" stroke-linecap="round"/>
+  <path d="M273 573h274" stroke="#00F5D4" stroke-opacity=".45" stroke-width="4"/>
+  <circle cx="411" cy="611" r="8" fill="#FF007A"/>
+  <text x="400" y="752" fill="#B8C9DE" font-family="Arial,sans-serif" font-size="19" letter-spacing="5" text-anchor="middle">NOMAD ARMOR</text>
+</svg>

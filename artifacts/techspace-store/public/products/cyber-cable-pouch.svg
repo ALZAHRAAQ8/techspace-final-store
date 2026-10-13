@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="30" x2="720" y2="780" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#172942"/>
+      <stop offset="1" stop-color="#080D17"/>
+    </linearGradient>
+    <linearGradient id="pouch" x1="190" y1="252" x2="616" y2="580" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#32435E"/>
+      <stop offset="1" stop-color="#111A2A"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" rx="36" fill="url(#bg)"/>
+  <circle cx="576" cy="188" r="126" fill="#FF007A" fill-opacity=".12"/>
+  <circle cx="205" cy="604" r="174" fill="#00F5D4" fill-opacity=".08"/>
+  <path d="M180 343c0-35 28-63 63-63h315c35 0 63 28 63 63v207c0 38-31 69-69 69H249c-38 0-69-31-69-69z" fill="url(#pouch)" stroke="#5C708B" stroke-width="7"/>
+  <path d="M191 368h419" stroke="#00F5D4" stroke-width="5"/>
+  <path d="M224 405h350v121H224z" fill="#151F31" stroke="#40536D" stroke-width="4"/>
+  <path d="M324 460c0-34 27-61 61-61h35c34 0 61 27 61 61s-27 61-61 61h-35c-34 0-61-27-61-61z" stroke="#00F5D4" stroke-width="13"/>
+  <path d="M378 460c0-18 15-33 33-33s33 15 33 33-15 33-33 33" stroke="#FF007A" stroke-width="9" stroke-linecap="round"/>
+  <rect x="246" y="544" width="110" height="36" rx="10" fill="#0B121E" stroke="#51647D" stroke-width="4"/>
+  <path d="M269 562h60" stroke="#00F5D4" stroke-width="5" stroke-linecap="round"/>
+  <path d="M194 380l-8-27c-5-18 9-36 28-36h38" stroke="#A2B3C8" stroke-width="7" stroke-linecap="round"/>
+  <path d="M604 380l8-27c5-18-9-36-28-36h-38" stroke="#A2B3C8" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="553" cy="560" r="7" fill="#FF007A"/>
+  <text x="400" y="709" fill="#B8C9DE" font-family="Arial,sans-serif" font-size="19" letter-spacing="5" text-anchor="middle">CYBER CABLE POUCH</text>
+</svg>

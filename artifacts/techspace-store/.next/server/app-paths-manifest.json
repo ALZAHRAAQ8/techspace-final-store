@@ -1,0 +1,18 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/api/auth/logout/route": "app/api/auth/logout/route.js",
+  "/api/auth/me/route": "app/api/auth/me/route.js",
+  "/api/auth/signup/route": "app/api/auth/signup/route.js",
+  "/api/healthz/route": "app/api/healthz/route.js",
+  "/api/products/[productId]/route": "app/api/products/[productId]/route.js",
+  "/api/products/route": "app/api/products/route.js",
+  "/cart/page": "app/cart/page.js",
+  "/login/page": "app/login/page.js",
+  "/orders/page": "app/orders/page.js",
+  "/page": "app/page.js",
+  "/products/[productId]/page": "app/products/[productId]/page.js",
+  "/products/page": "app/products/page.js",
+  "/signup/page": "app/signup/page.js"
+}
