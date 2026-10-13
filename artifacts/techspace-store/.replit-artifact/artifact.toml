@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "TechSpace Store"
+description = "متجر TechSpace لمستلزمات السفر التقنية في الكويت، مع كتالوج متصل بـMongoDB Atlas، حسابات آمنة، سلة مشتريات، وسجل طلبات خاص بكل مستخدم."
+version = "1.0.0"
+id = "artifacts/techspace-store"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21651
+
+[services.development]
+run = "pnpm --filter @workspace/techspace-store run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/techspace-store", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/techspace-store/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21651"
+BASE_PATH = "/"
