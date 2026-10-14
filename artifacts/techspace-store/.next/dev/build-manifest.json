@@ -41,7 +41,7 @@
       "static/chunks/turbopack-artifacts_techspace-store_0kdavcsixulte._.js",
       "static/chunks/artifacts_techspace-store_219uq1sj0q91c._.js"
     ],
-    "/products/page": [
+    "/_not-found/page": [
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_1u77ql0los1p3._.js",
       "static/chunks/0o91_next_dist_compiled_react-dom_cjs_react-dom-client_development_089yz5igta0g4.js",
       "static/chunks/0o91_next_dist_compiled_react-dom_cjs_react-dom_development_0scv8ufga3u2s.js",
@@ -54,9 +54,9 @@
       "static/chunks/0zix_@swc_helpers_cjs_0hi-e474n4mns._.js",
       "static/chunks/artifacts_techspace-store_1anvha4rlo79g._.js",
       "static/chunks/turbopack-artifacts_techspace-store_0kdavcsixulte._.js",
-      "static/chunks/artifacts_techspace-store_19nq7zbcyxdqp._.js"
+      "static/chunks/artifacts_techspace-store_18x7jxupx5rou._.js"
     ],
-    "/login/page": [
+    "/cart/page": [
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_1u77ql0los1p3._.js",
       "static/chunks/0o91_next_dist_compiled_react-dom_cjs_react-dom-client_development_089yz5igta0g4.js",
       "static/chunks/0o91_next_dist_compiled_react-dom_cjs_react-dom_development_0scv8ufga3u2s.js",
@@ -69,7 +69,7 @@
       "static/chunks/0zix_@swc_helpers_cjs_0hi-e474n4mns._.js",
       "static/chunks/artifacts_techspace-store_1anvha4rlo79g._.js",
       "static/chunks/turbopack-artifacts_techspace-store_0kdavcsixulte._.js",
-      "static/chunks/artifacts_techspace-store_1urspxgmkk327._.js"
+      "static/chunks/artifacts_techspace-store_1b00s98w4yr-2._.js"
     ]
   },
   "pagesChunkGroupBootstrapParams": {},
