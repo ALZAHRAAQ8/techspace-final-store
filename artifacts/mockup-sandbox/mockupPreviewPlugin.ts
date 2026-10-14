@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync } from "fs";
+import { glob, stat } from "node:fs/promises";
 import path from "path";
-import glob from "fast-glob";
 import chokidar from "chokidar";
 import type { FSWatcher } from "chokidar";
 import type { Plugin } from "vite";
@@ -40,10 +40,17 @@ export function mockupPreviewPlugin(): Plugin {
   }
 
   async function discoverComponents(): Promise<Array<DiscoveredComponent>> {
-    const files = await glob(`${MOCKUPS_DIR}/**/*.tsx`, {
+    const files: string[] = [];
+    for await (const file of glob(`${MOCKUPS_DIR}/**/*.tsx`, {
       cwd: root,
-      ignore: ["**/_*/**", "**/_*.tsx"],
-    });
+      exclude: ["**/_*/**", "**/_*.tsx", "**/.*/**", "**/.*"],
+    })) {
+      // Like fast-glob's default onlyFiles behavior, never import a directory.
+      if ((await stat(path.join(root, file))).isFile()) {
+        files.push(file);
+      }
+    }
+    files.sort();
 
     return files.map((f) => ({
       globKey: "./" + f.slice("src/".length),

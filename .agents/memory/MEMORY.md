@@ -1,0 +1,1 @@
+- [Dependency remediation](dependency-remediation.md) — replace unpatched small dependencies with supported built-ins; verify behavior and narrowly scoped overrides.
