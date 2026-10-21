@@ -1,22 +1,27 @@
-import { ReplitConnectors } from "@replit/connectors-sdk";
+import Stripe from "stripe";
 
-const connectors = new ReplitConnectors();
+// Server-only: the user selected this secret's account for all payment operations.
+export function getStripeSecretKey(): string {
+  const key = process.env.STRIPE_SECRET_KEY?.trim();
+  if (!key) throw new Error("Stripe secret key missing");
+  return key;
+}
+
+export function getStripeClient(): Stripe {
+  return new Stripe(getStripeSecretKey(), { timeout: 20000, maxNetworkRetries: 2 });
+}
 
 export async function stripeRequest<T>(
   path: string,
   params?: URLSearchParams,
   idempotencyKey?: string,
 ): Promise<T> {
-  const response = await connectors.proxy("stripe", `/v1/${path}`, {
-    method: params ? "POST" : "GET",
-    headers: params ? {
-      "Content-Type": "application/x-www-form-urlencoded",
-      ...(idempotencyKey ? { "Idempotency-Key": idempotencyKey } : {}),
-    } : undefined,
-    body: params?.toString(),
-  });
-  if (!response.ok) throw new Error("Stripe request failed");
-  return response.json() as Promise<T>;
+  return getStripeClient().rawRequest(
+    params ? "POST" : "GET",
+    `/v1/${path}`,
+    params ? Object.fromEntries(params) : {},
+    idempotencyKey ? { idempotencyKey } : {},
+  ) as Promise<T>;
 }
 
 export type CheckoutSession = {

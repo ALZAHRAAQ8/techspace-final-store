@@ -3,7 +3,7 @@ export async function register() {
     const { initializeStripeSync } = await import("./lib/stripe-sync");
     initializeStripeSync().then(
       () => console.info("Stripe sync initialized"),
-      () => console.error("Stripe sync initialization failed; verify Stripe connection and secret belong to the same account."),
+      () => console.error("Stripe sync initialization failed; check the saved Stripe key, database access, and webhook configuration."),
     );
   }
 }

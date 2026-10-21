@@ -6,6 +6,6 @@ Keep the store's products, accounts, and orders in MongoDB Atlas.
 **Why:** The user explicitly requires MongoDB for the coursework; adding Stripe is not permission to migrate that data to PostgreSQL.
 **How to apply:** Use PostgreSQL only for Stripe-managed synchronization when needed.
 
-Require the Stripe connection and any separate Stripe sync key to belong to the same account.
-**Why:** These two credential sources can legitimately point at different accounts; mixing them silently misroutes payment synchronization.
-**How to apply:** Compare account identities internally without logging credentials, and fail closed on mismatch.
+Use the account that owns the saved STRIPE_SECRET_KEY for all Stripe operations, not the separately connected Stripe account.
+**Why:** The user explicitly selected the saved key's account after the connection and key authenticated as different accounts.
+**How to apply:** Checkout, verification, and synchronization must share this server-only credential source. Do not switch back to the connector without the user's approval.

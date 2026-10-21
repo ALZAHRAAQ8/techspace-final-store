@@ -9,7 +9,7 @@ __turbopack_context__.s([
 async function register() {
     if ("TURBOPACK compile-time truthy", 1) {
         const { initializeStripeSync } = await __turbopack_context__.A("[project]/artifacts/techspace-store/lib/stripe-sync.ts [instrumentation] (ecmascript, async loader)");
-        initializeStripeSync().then(()=>console.info("Stripe sync initialized"), ()=>console.error("Stripe sync initialization failed; verify Stripe connection and secret belong to the same account."));
+        initializeStripeSync().then(()=>console.info("Stripe sync initialized"), ()=>console.error("Stripe sync initialization failed; check the saved Stripe key, database access, and webhook configuration."));
     }
 }
 }),
