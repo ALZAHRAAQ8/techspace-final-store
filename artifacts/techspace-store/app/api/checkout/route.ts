@@ -57,6 +57,15 @@ export async function POST(request: Request) {
     await order.save();
     return Response.json({ url: session.url });
   } catch (error) {
+    if (typeof error === "object" && error !== null &&
+        "type" in error && error.type === "StripeInvalidRequestError" &&
+        "param" in error && error.param === "currency") {
+      return apiError(
+        "CURRENCY_UNSUPPORTED",
+        "حساب Stripe الحالي لا يدعم الدفع بالدينار الكويتي. يرجى التواصل مع المتجر.",
+        503,
+      );
+    }
     return serverErrorResponse(error, "تعذر بدء الدفع. حاول مرة أخرى.");
   }
 }

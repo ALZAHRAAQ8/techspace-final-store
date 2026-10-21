@@ -87,6 +87,9 @@ async function POST(request) {
             url: session.url
         });
     } catch (error) {
+        if (typeof error === "object" && error !== null && "type" in error && error.type === "StripeInvalidRequestError" && "param" in error && error.param === "currency") {
+            return (0, __TURBOPACK__imported__module__$5b$project$5d2f$artifacts$2f$techspace$2d$store$2f$lib$2f$http$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["apiError"])("CURRENCY_UNSUPPORTED", "حساب Stripe الحالي لا يدعم الدفع بالدينار الكويتي. يرجى التواصل مع المتجر.", 503);
+        }
         return (0, __TURBOPACK__imported__module__$5b$project$5d2f$artifacts$2f$techspace$2d$store$2f$lib$2f$http$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["serverErrorResponse"])(error, "تعذر بدء الدفع. حاول مرة أخرى.");
     }
 }
