@@ -23,6 +23,7 @@ export async function POST(request: Request) {
     const order = await Order.findOne({ _id: body.orderId, user: userId });
     if (!order) return apiError("NOT_FOUND", "الطلب غير موجود.", 404);
     if (order.status === "paid") return apiError("ALREADY_PAID", "تم دفع هذا الطلب.", 409);
+    if (order.currency !== "USD") return apiError("LEGACY_CURRENCY", "هذا الطلب بالدينار الكويتي. أنشئ طلباً جديداً بأسعار الدولار الحالية.", 409);
     await initializeStripeSync();
     if (order.checkoutSessionId) {
       const session = await stripeRequest<CheckoutSession>(`checkout/sessions/${order.checkoutSessionId}`);
@@ -32,22 +33,21 @@ export async function POST(request: Request) {
     // Derive prices exclusively from the server-created immutable order snapshot.
     const params = new URLSearchParams({
       mode: "payment",
-      "payment_method_types[0]": "card",
       client_reference_id: String(order._id),
       "metadata[userId]": userId,
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cart?checkout=cancelled`,
     });
     for (const [index, item] of order.items.entries()) {
-      const amount = Math.round(item.price * 1000); // KWD uses three decimal places.
+      const amount = Math.round(item.price * 100); // USD uses cents.
       if (!Number.isSafeInteger(amount) || amount <= 0) return apiError("INVALID_PRICE", "السعر غير صالح.", 400);
       const product = await stripeRequest<{ id: string }>("products", new URLSearchParams({
         name: item.nameAr || item.name,
         "metadata[storeProductId]": item.productId,
       }), `techspace-product-${item.productId}`);
       const price = await stripeRequest<{ id: string }>("prices", new URLSearchParams({
-        product: product.id, currency: "kwd", unit_amount: String(amount),
-      }), `techspace-price-${item.productId}-${amount}`);
+        product: product.id, currency: "usd", unit_amount: String(amount),
+      }), `techspace-price-usd-${item.productId}-${amount}`);
       params.set(`line_items[${index}][price]`, price.id);
       params.set(`line_items[${index}][quantity]`, String(item.quantity));
     }
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
         "param" in error && error.param === "currency") {
       return apiError(
         "CURRENCY_UNSUPPORTED",
-        "حساب Stripe الحالي لا يدعم الدفع بالدينار الكويتي. يرجى التواصل مع المتجر.",
+        "حساب Stripe الحالي لا يدعم عملة الدفع. يرجى التواصل مع المتجر.",
         503,
       );
     }
@@ -81,7 +81,7 @@ export async function GET(request: Request) {
     if (!order) return apiError("NOT_FOUND", "الطلب غير موجود.", 404);
     const session = await stripeRequest<CheckoutSession>(`checkout/sessions/${id}`);
     if (session.client_reference_id !== String(order._id) || session.metadata.userId !== userId ||
-        session.currency !== "kwd" || session.amount_total !== Math.round(order.total * 1000))
+        session.currency !== order.currency.toLowerCase() || session.amount_total !== Math.round(order.total * (order.currency === "KWD" ? 1000 : 100)))
       return apiError("PAYMENT_MISMATCH", "تعذر مطابقة الدفع بالطلب.", 409);
     if (session.payment_status === "paid") {
       await Order.updateOne({ _id: order._id, user: userId }, { $set: { status: "paid" } });

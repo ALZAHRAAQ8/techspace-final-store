@@ -30,7 +30,7 @@ export function ProductCard({ product, onAdd }: { product: Product; onAdd: (id: 
         </div>
       </Link>
       <div className="flex items-center justify-between border-t border-[#edf1f1] px-5 py-4">
-        <p className="font-bold text-[#10263e]" data-testid={`text-product-price-${product.id}`}><span className="text-[10px] text-[#83939d]">د.ك</span> {product.price.toFixed(3)}</p>
+        <p className="font-bold text-[#10263e]" data-testid={`text-product-price-${product.id}`}><span className="text-[10px] text-[#83939d]">USD</span> {product.price.toFixed(2)}</p>
         <button type="button" onClick={() => onAdd(product.id)} className="rounded-full bg-[#e6f5f2] px-4 py-2 text-xs font-bold text-[#087e76] transition hover:bg-[#078e83] hover:text-white" data-testid={`button-add-${product.id}`}>أضف للسلة</button>
       </div>
     </article>
@@ -74,6 +74,7 @@ export function ErrorState({ onRetry, message = 'لم نتمكن من تحميل
   );
 }
 
-export function formatKwd(value: number) {
-  return new Intl.NumberFormat('ar-KW', { minimumFractionDigits: 3, maximumFractionDigits: 3 }).format(value);
+export function formatKwd(value: number, currency = "USD") {
+  const digits = currency === "KWD" ? 3 : 2;
+  return new Intl.NumberFormat('ar-KW', { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(value);
 }

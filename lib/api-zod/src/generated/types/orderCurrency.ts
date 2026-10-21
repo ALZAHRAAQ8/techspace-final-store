@@ -11,4 +11,5 @@ export type OrderCurrency = typeof OrderCurrency[keyof typeof OrderCurrency];
 
 export const OrderCurrency = {
   KWD: 'KWD',
+  USD: 'USD',
 } as const;

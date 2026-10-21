@@ -39,7 +39,7 @@ export default function ProductDetailPage() {
           <p className="mt-6 text-sm leading-8 text-[#647784]" data-testid="text-detail-description">{product.description}</p>
           <div className="mt-8 border-y border-[#dce8e8] py-5">
             <p className="text-xs text-[#80909a]">السعر</p>
-            <p className="mt-1 text-3xl font-extrabold tracking-[-0.04em] text-[#10263e]" data-testid="text-detail-price">{formatKwd(product.price)} <span className="text-sm font-bold text-[#078e83]">د.ك</span></p>
+            <p className="mt-1 text-3xl font-extrabold tracking-[-0.04em] text-[#10263e]" data-testid="text-detail-price">{formatKwd(product.price)} <span className="text-sm font-bold text-[#078e83]">USD</span></p>
           </div>
           <button type="button" onClick={() => { cart.add(product.id); setAdded(true); window.setTimeout(() => setAdded(false), 2500); }} className="mt-7 flex w-full items-center justify-center gap-3 rounded-full bg-[#078e83] px-6 py-4 text-sm font-extrabold text-white transition hover:bg-[#08776f]" data-testid="button-add-detail">
             {added ? <Check size={18} /> : <ShoppingBag size={18} />}{added ? 'تمت الإضافة للسلة' : 'أضف إلى السلة'}

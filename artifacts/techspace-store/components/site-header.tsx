@@ -89,7 +89,7 @@ export function SiteFooter() {
           <p className="text-lg font-bold tracking-[-0.04em]">TechSpace</p>
           <p className="mt-2 max-w-sm text-sm leading-7 text-[#aec0ca]">تقنية ذكية لرحلات أكثر راحة. مختارة بعناية للمسافرين في الكويت.</p>
         </div>
-        <p className="text-xs tracking-wide text-[#92a8b4]">© TechSpace Kuwait · الأسعار بالدينار الكويتي</p>
+        <p className="text-xs tracking-wide text-[#92a8b4]">© TechSpace Kuwait · الأسعار بالدولار الأمريكي</p>
       </div>
     </footer>
   );

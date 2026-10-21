@@ -36,7 +36,7 @@ export default function CartPage() {
     setCheckoutPending(true);
     try {
       const items = cartProducts.map(({ item }) => ({ productId: item.productId, quantity: item.quantity }));
-      const fingerprint = JSON.stringify({ userId: userQuery.data.id, items, prices: cartProducts.map(({ product }) => product.price) });
+      const fingerprint = JSON.stringify({ currency: "USD", userId: userQuery.data.id, items, prices: cartProducts.map(({ product }) => product.price) });
       const saved = JSON.parse(sessionStorage.getItem('techspace-pending-order') || 'null');
       const order = saved?.fingerprint === fingerprint ? saved : await createOrder.mutateAsync({ data: { items } });
       sessionStorage.setItem('techspace-pending-order', JSON.stringify({ id: order.id, fingerprint, items }));
@@ -94,7 +94,7 @@ export default function CartPage() {
                 <div className="min-w-0 flex-1">
                   <p className="text-[10px] font-bold tracking-widest text-[#078e83]">{product.category}</p>
                   <h2 className="mt-1 truncate font-bold text-[#17344a]">{product.nameAr || product.name}</h2>
-                  <p className="mt-1 text-sm font-bold text-[#536b79]" data-testid={`text-cart-price-${product.id}`}>{formatKwd(product.price)} د.ك</p>
+                  <p className="mt-1 text-sm font-bold text-[#536b79]" data-testid={`text-cart-price-${product.id}`}>{formatKwd(product.price)} USD</p>
                   <div className="mt-3 flex items-center gap-2">
                     <button type="button" onClick={() => cart.setQuantity(product.id, item.quantity - 1)} className="grid size-8 place-items-center rounded-full bg-[#edf5f4] text-[#3c6170]" aria-label="تقليل الكمية" data-testid={`button-quantity-minus-${product.id}`}><Minus size={14} /></button>
                     <span className="min-w-6 text-center text-sm font-bold" data-testid={`text-quantity-${product.id}`}>{item.quantity}</span>
@@ -102,7 +102,7 @@ export default function CartPage() {
                   </div>
                 </div>
                 <div className="hidden flex-col items-end gap-5 sm:flex">
-                  <p className="font-bold text-[#10263e]">{formatKwd(product.price * item.quantity)} د.ك</p>
+                  <p className="font-bold text-[#10263e]">{formatKwd(product.price * item.quantity)} USD</p>
                   <button type="button" onClick={() => cart.remove(product.id)} className="text-xs font-bold text-[#bc4a76] hover:text-[#8f2f5a]" data-testid={`button-remove-${product.id}`}><Trash2 className="ml-1 inline" size={14} />إزالة</button>
                 </div>
                 <button type="button" onClick={() => cart.remove(product.id)} className="self-start rounded-full p-2 text-[#bc4a76] sm:hidden" aria-label="إزالة المنتج" data-testid={`button-remove-mobile-${product.id}`}><Trash2 size={16} /></button>
@@ -118,9 +118,9 @@ export default function CartPage() {
           </section>
           <aside className="rounded-[24px] border border-[#dce8e8] bg-white p-6 lg:sticky lg:top-24">
             <h2 className="text-lg font-bold text-[#17344a]">ملخص الطلب</h2>
-            <div className="mt-5 flex justify-between text-sm text-[#71828d]"><span>المنتجات ({cartProducts.reduce((sum, entry) => sum + entry.item.quantity, 0)})</span><span>{formatKwd(total)} د.ك</span></div>
+            <div className="mt-5 flex justify-between text-sm text-[#71828d]"><span>المنتجات ({cartProducts.reduce((sum, entry) => sum + entry.item.quantity, 0)})</span><span>{formatKwd(total)} USD</span></div>
             <div className="my-5 border-t border-dashed border-[#d7e4e4]" />
-            <div className="flex items-end justify-between"><span className="text-sm font-bold text-[#17344a]">الإجمالي</span><span className="text-2xl font-extrabold tracking-tight text-[#10263e]" data-testid="text-cart-total">{formatKwd(total)}<small className="mr-1 text-xs text-[#078e83]">د.ك</small></span></div>
+            <div className="flex items-end justify-between"><span className="text-sm font-bold text-[#17344a]">الإجمالي</span><span className="text-2xl font-extrabold tracking-tight text-[#10263e]" data-testid="text-cart-total">{formatKwd(total)}<small className="mr-1 text-xs text-[#078e83]">USD</small></span></div>
             <p className="mt-3 text-[11px] leading-5 text-[#83919a]">الدفع الآمن عبر Stripe. إذا ألغيت الدفع، تبقى سلتك محفوظة.</p>
             {orderError && <p role="alert" className="mt-4 rounded-xl bg-[#fff1f5] p-3 text-xs leading-5 text-[#9c3766]" data-testid="status-order-error">{orderError}</p>}
             <button type="button" onClick={placeOrder} disabled={checkoutPending || createOrder.isPending || !cartProducts.length || unavailable.length > 0} className="mt-5 w-full rounded-full bg-[#078e83] px-5 py-4 text-sm font-extrabold text-white transition hover:bg-[#08776f] disabled:cursor-not-allowed disabled:opacity-55" data-testid="button-place-order">{checkoutPending ? 'جاري الانتقال للدفع...' : 'الدفع عبر Stripe'}</button>

@@ -64,7 +64,7 @@ export default function HomePage() {
         <div className="border-t border-white/10">
           <div className="container-shop flex flex-wrap items-center justify-between gap-5 py-5 text-xs font-semibold text-[#b2c3ce]">
             <span>مصممة للمسافر اللي يعرف شنو يحتاج</span>
-            <span className="flex items-center gap-3"><span className="size-1.5 rounded-full bg-[#32e0c4]" />كل الأسعار بالدينار الكويتي</span>
+            <span className="flex items-center gap-3"><span className="size-1.5 rounded-full bg-[#32e0c4]" />كل الأسعار بالدولار الأمريكي</span>
           </div>
         </div>
       </section>
@@ -95,7 +95,7 @@ export default function HomePage() {
               <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-[-0.05em] text-[#10263e]">خفّف شنطتك.<br />كبّر راحة بالك.</h2>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
-              {[['01', 'اختيارات عملية', 'أدوات تخدمك من بوابة المغادرة إلى الرجعة.'], ['02', 'واضحة من البداية', 'سعر المنتج بالدينار الكويتي قبل ما تضيفه.'], ['03', 'كل طلب بمكانه', 'ارجع لتفاصيل طلباتك من حسابك بسهولة.']].map(([number, title, text]) => (
+              {[['01', 'اختيارات عملية', 'أدوات تخدمك من بوابة المغادرة إلى الرجعة.'], ['02', 'واضحة من البداية', 'سعر المنتج بالدولار الأمريكي قبل ما تضيفه.'], ['03', 'كل طلب بمكانه', 'ارجع لتفاصيل طلباتك من حسابك بسهولة.']].map(([number, title, text]) => (
                 <div key={number} className="rounded-2xl border border-[#d4e5e4] bg-[#f8fbfa] p-5">
                   <span className="text-xs font-bold tracking-widest text-[#e54591]">{number}</span>
                   <h3 className="mt-4 font-bold text-[#17344a]">{title}</h3>

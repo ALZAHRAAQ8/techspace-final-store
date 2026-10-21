@@ -149,7 +149,7 @@ export const ListMyOrdersResponseItem = zod.object({
   "price": zod.number().min(listMyOrdersResponseItemsItemPriceMin)
 })),
   "total": zod.number().min(listMyOrdersResponseTotalMin),
-  "currency": zod.enum(['KWD']),
+  "currency": zod.enum(['KWD', 'USD']),
   "status": zod.enum(['pending', 'paid']),
   "createdAt": zod.coerce.date()
 })
@@ -190,7 +190,7 @@ export const CreateOrderResponse = zod.object({
   "price": zod.number().min(createOrderResponseItemsItemPriceMin)
 })),
   "total": zod.number().min(createOrderResponseTotalMin),
-  "currency": zod.enum(['KWD']),
+  "currency": zod.enum(['KWD', 'USD']),
   "status": zod.enum(['pending', 'paid']),
   "createdAt": zod.coerce.date()
 })

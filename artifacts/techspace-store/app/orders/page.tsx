@@ -67,13 +67,13 @@ export default function OrdersPage() {
                 {order.items.map((item, index) => (
                   <div key={`${item.productId}-${index}`} className="flex items-start justify-between gap-3 text-sm">
                     <p className="font-semibold text-[#4e6472]">{item.nameAr || item.name}<span className="mr-2 text-xs text-[#8b9aa2]">× {item.quantity}</span></p>
-                    <p className="shrink-0 font-bold text-[#425b6a]">{formatKwd(item.price * item.quantity)} د.ك</p>
+                    <p className="shrink-0 font-bold text-[#425b6a]">{formatKwd(item.price * item.quantity, order.currency)} {order.currency}</p>
                   </div>
                 ))}
               </div>
               <div className="flex items-center justify-between border-t border-[#edf1f1] pt-4">
                 <span className="flex items-center gap-2 text-xs text-[#80909a]"><PackageCheck size={15} />إجمالي الطلب</span>
-                <p className="text-lg font-extrabold text-[#10263e]" data-testid={`text-order-total-${order.id}`}>{formatKwd(order.total)} <small className="text-xs text-[#078e83]">{order.currency}</small></p>
+                <p className="text-lg font-extrabold text-[#10263e]" data-testid={`text-order-total-${order.id}`}>{formatKwd(order.total, order.currency)} <small className="text-xs text-[#078e83]">{order.currency}</small></p>
               </div>
             </article>
           ))}

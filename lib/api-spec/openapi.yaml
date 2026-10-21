@@ -359,7 +359,7 @@ components:
           items:
             $ref: "#/components/schemas/OrderItem"
         total: { type: number, minimum: 0 }
-        currency: { type: string, enum: [KWD] }
+        currency: { type: string, enum: [KWD, USD] }
         status: { type: string, enum: [pending, paid] }
         createdAt: { type: string, format: date-time }
       required: [id, items, total, currency, status, createdAt]

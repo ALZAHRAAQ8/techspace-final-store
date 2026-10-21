@@ -34,7 +34,7 @@ type OrderDocumentLike = {
     price: number;
   }>;
   total: number;
-  currency: "KWD";
+  currency: "KWD" | "USD";
   status: "pending" | "paid";
   createdAt: Date;
 };

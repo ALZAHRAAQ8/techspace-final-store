@@ -13,7 +13,7 @@ export interface OrderRecord {
   user: Types.ObjectId;
   items: OrderItemRecord[];
   total: number;
-  currency: "KWD";
+  currency: "KWD" | "USD";
   status: "pending" | "paid";
   checkoutSessionId?: string;
   createdAt: Date;
@@ -73,8 +73,8 @@ const OrderSchema = new mongoose.Schema<OrderRecord>(
     },
     currency: {
       type: String,
-      enum: ["KWD"],
-      default: "KWD",
+      enum: ["KWD", "USD"],
+      default: "USD",
       required: true,
     },
     status: {

@@ -99,12 +99,12 @@ async function POST(request) {
                 price: Number(product.price)
             };
         });
-        const total = Math.round(items.reduce((sum, item)=>sum + item.price * item.quantity, 0) * 1000) / 1000;
+        const total = Math.round(items.reduce((sum, item)=>sum + item.price * item.quantity, 0) * 100) / 100;
         const order = await __TURBOPACK__imported__module__$5b$project$5d2f$artifacts$2f$techspace$2d$store$2f$models$2f$Order$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Order"].create({
             user: new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$mongoose$40$9$2e$11$2e$1$2f$node_modules$2f$mongoose$29$__["default"].Types.ObjectId(userId),
             items,
             total,
-            currency: "KWD",
+            currency: "USD",
             status: "pending"
         });
         return Response.json((0, __TURBOPACK__imported__module__$5b$project$5d2f$artifacts$2f$techspace$2d$store$2f$lib$2f$serializers$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["serializeOrder"])(order), {
@@ -394,9 +394,10 @@ const OrderSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoo
     currency: {
         type: String,
         enum: [
-            "KWD"
+            "KWD",
+            "USD"
         ],
-        default: "KWD",
+        default: "USD",
         required: true
     },
     status: {

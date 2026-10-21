@@ -10,7 +10,7 @@ const sampleProducts = [
     description:
       "حقيبة سفر تقنية مبطنة، مقسمة للأجهزة والملحقات، ومصممة للتنقل اليومي.",
     category: "حقائب السفر",
-    price: 68.5,
+    price: 225,
     image: "/products/nomad-armor.svg",
     tag: "الأكثر طلباً",
   },
@@ -21,7 +21,7 @@ const sampleProducts = [
     description:
       "جراب مبطن يحمي جهازك اللوحي وملحقات الاتصال الأساسية في مساحة واحدة.",
     category: "حماية الأجهزة",
-    price: 32.75,
+    price: 109,
     image: "/products/hub-sleeve-pro.svg",
     tag: "إصدار جديد",
   },
@@ -32,7 +32,7 @@ const sampleProducts = [
     description:
       "حافظة صغيرة لتنظيم الكابلات والشواحن وبطاقات الذاكرة أثناء السفر.",
     category: "تنظيم الملحقات",
-    price: 18.9,
+    price: 65,
     image: "/products/cyber-cable-pouch.svg",
   },
 ];

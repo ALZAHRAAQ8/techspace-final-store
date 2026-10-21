@@ -110,13 +110,13 @@ export async function POST(request: Request): Promise<Response> {
     const total =
       Math.round(
         items.reduce((sum, item) => sum + item.price * item.quantity, 0) *
-          1000,
-      ) / 1000;
+          100,
+      ) / 100;
     const order = await Order.create({
       user: new mongoose.Types.ObjectId(userId),
       items,
       total,
-      currency: "KWD",
+      currency: "USD",
       status: "pending",
     });
 

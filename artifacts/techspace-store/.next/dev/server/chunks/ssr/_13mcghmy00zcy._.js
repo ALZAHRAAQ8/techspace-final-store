@@ -464,14 +464,14 @@ function ProductCard({ product, onAdd }) {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$4$2e$0_$40$types$2b$node$40$25$2e$9$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 className: "text-[10px] text-[#83939d]",
-                                children: "د.ك"
+                                children: "USD"
                             }, void 0, false, {
                                 fileName: "[project]/artifacts/techspace-store/components/ui.tsx",
                                 lineNumber: 33,
                                 columnNumber: 98
                             }, this),
                             " ",
-                            product.price.toFixed(3)
+                            product.price.toFixed(2)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/artifacts/techspace-store/components/ui.tsx",
@@ -668,10 +668,11 @@ function ErrorState({ onRetry, message = 'لم نتمكن من تحميل الب
         columnNumber: 5
     }, this);
 }
-function formatKwd(value) {
+function formatKwd(value, currency = "USD") {
+    const digits = currency === "KWD" ? 3 : 2;
     return new Intl.NumberFormat('ar-KW', {
-        minimumFractionDigits: 3,
-        maximumFractionDigits: 3
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
     }).format(value);
 }
 }),
