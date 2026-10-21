@@ -15,6 +15,7 @@ export interface OrderRecord {
   total: number;
   currency: "KWD";
   status: "pending" | "paid";
+  checkoutSessionId?: string;
   createdAt: Date;
 }
 
@@ -82,6 +83,7 @@ const OrderSchema = new mongoose.Schema<OrderRecord>(
       default: "pending",
       required: true,
     },
+    checkoutSessionId: { type: String, index: true },
     createdAt: {
       type: Date,
       default: Date.now,

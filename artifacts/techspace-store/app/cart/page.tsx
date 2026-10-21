@@ -18,12 +18,13 @@ export default function CartPage() {
   const router = useRouter();
   const [orderSuccess, setOrderSuccess] = useState('');
   const [orderError, setOrderError] = useState('');
+  const [checkoutPending, setCheckoutPending] = useState(false);
   const products = productsQuery.data ?? [];
   const cartProducts = useMemo(() => cart.items.map((item) => ({ item, product: products.find((product) => product.id === item.productId) })).filter((entry): entry is { item: typeof cart.items[number]; product: NonNullable<typeof products[number]> } => Boolean(entry.product)), [cart.items, products]);
   const unavailable = cart.items.filter((item) => productsQuery.data && !products.some((product) => product.id === item.productId));
   const total = cartProducts.reduce((sum, entry) => sum + entry.product.price * entry.item.quantity, 0);
 
-  function placeOrder() {
+  async function placeOrder() {
     setOrderError('');
     setOrderSuccess('');
     if (!userQuery.data) {
@@ -31,14 +32,30 @@ export default function CartPage() {
       return;
     }
     if (!cartProducts.length) return;
-    createOrder.mutate({ data: { items: cartProducts.map(({ item }) => ({ productId: item.productId, quantity: item.quantity })) } }, {
-      onSuccess: (order) => {
-        cart.clear();
-        setOrderSuccess(`تم تأكيد طلبك رقم ${order.id}`);
-        queryClient.invalidateQueries({ queryKey: getListMyOrdersQueryKey() });
-      },
-      onError: () => setOrderError('تعذر إنشاء الطلب. تأكد من تسجيل الدخول ثم حاول مرة أخرى.'),
-    });
+    if (unavailable.length) { setOrderError('أزل المنتجات غير المتوفرة قبل الدفع.'); return; }
+    setCheckoutPending(true);
+    try {
+      const items = cartProducts.map(({ item }) => ({ productId: item.productId, quantity: item.quantity }));
+      const fingerprint = JSON.stringify({ userId: userQuery.data.id, items, prices: cartProducts.map(({ product }) => product.price) });
+      const saved = JSON.parse(sessionStorage.getItem('techspace-pending-order') || 'null');
+      const order = saved?.fingerprint === fingerprint ? saved : await createOrder.mutateAsync({ data: { items } });
+      sessionStorage.setItem('techspace-pending-order', JSON.stringify({ id: order.id, fingerprint, items }));
+      queryClient.invalidateQueries({ queryKey: getListMyOrdersQueryKey() });
+      const response = await fetch('/api/checkout', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId: order.id }),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        if (result.code === 'SESSION_CLOSED' || result.code === 'ALREADY_PAID') sessionStorage.removeItem('techspace-pending-order');
+        throw new Error(result.message || 'تعذر بدء الدفع.');
+      }
+      const url = new URL(result.url);
+      if (url.protocol !== 'https:' || url.hostname !== 'checkout.stripe.com') throw new Error('رابط دفع غير صالح.');
+      window.location.assign(url.href);
+    } catch (error) {
+      setOrderError(error instanceof Error ? error.message : 'تعذر بدء الدفع.');
+    } finally { setCheckoutPending(false); }
   }
 
   if (!cart.ready || productsQuery.isLoading) {
@@ -104,9 +121,9 @@ export default function CartPage() {
             <div className="mt-5 flex justify-between text-sm text-[#71828d]"><span>المنتجات ({cartProducts.reduce((sum, entry) => sum + entry.item.quantity, 0)})</span><span>{formatKwd(total)} د.ك</span></div>
             <div className="my-5 border-t border-dashed border-[#d7e4e4]" />
             <div className="flex items-end justify-between"><span className="text-sm font-bold text-[#17344a]">الإجمالي</span><span className="text-2xl font-extrabold tracking-tight text-[#10263e]" data-testid="text-cart-total">{formatKwd(total)}<small className="mr-1 text-xs text-[#078e83]">د.ك</small></span></div>
-            <p className="mt-3 text-[11px] leading-5 text-[#83919a]">يتم تأكيد طلبك فقط. لا يتم تحصيل أي مبلغ إلكترونياً.</p>
+            <p className="mt-3 text-[11px] leading-5 text-[#83919a]">الدفع الآمن عبر Stripe. إذا ألغيت الدفع، تبقى سلتك محفوظة.</p>
             {orderError && <p role="alert" className="mt-4 rounded-xl bg-[#fff1f5] p-3 text-xs leading-5 text-[#9c3766]" data-testid="status-order-error">{orderError}</p>}
-            <button type="button" onClick={placeOrder} disabled={createOrder.isPending || !cartProducts.length} className="mt-5 w-full rounded-full bg-[#078e83] px-5 py-4 text-sm font-extrabold text-white transition hover:bg-[#08776f] disabled:cursor-not-allowed disabled:opacity-55" data-testid="button-place-order">{createOrder.isPending ? 'جاري تأكيد الطلب...' : 'تأكيد الطلب'}</button>
+            <button type="button" onClick={placeOrder} disabled={checkoutPending || createOrder.isPending || !cartProducts.length || unavailable.length > 0} className="mt-5 w-full rounded-full bg-[#078e83] px-5 py-4 text-sm font-extrabold text-white transition hover:bg-[#08776f] disabled:cursor-not-allowed disabled:opacity-55" data-testid="button-place-order">{checkoutPending ? 'جاري الانتقال للدفع...' : 'الدفع عبر Stripe'}</button>
             {!userQuery.data && <p className="mt-3 text-center text-xs text-[#83919a]">ستحتاج لتسجيل الدخول قبل تأكيد طلبك.</p>}
           </aside>
         </div>

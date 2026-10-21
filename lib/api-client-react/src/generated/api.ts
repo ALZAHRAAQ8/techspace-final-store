@@ -22,6 +22,9 @@ import type {
 import type {
   ActionResponse,
   AuthResponse,
+  CheckoutInput,
+  CheckoutRedirect,
+  CheckoutVerification,
   ErrorResponse,
   HealthStatus,
   LogInInput,
@@ -29,7 +32,8 @@ import type {
   PlaceOrderInput,
   Product,
   PublicUser,
-  SignUpInput
+  SignUpInput,
+  VerifyCheckoutParams
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -782,4 +786,164 @@ export const useCreateOrder = <TError = ErrorType<ErrorResponse>,
       > => {
       return useMutation(getCreateOrderMutationOptions(options));
     }
+
+export const getStartCheckoutUrl = () => {
+
+
+
+
+  return `/api/checkout`
+}
+
+export const startCheckout = async (checkoutInput: CheckoutInput, options?: Parameters<typeof customFetch>[1]): Promise<CheckoutRedirect> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<CheckoutRedirect>(getStartCheckoutUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(checkoutInput)
+  }
+);}
+
+
+
+
+
+export const getStartCheckoutMutationKey = () => ['startCheckout'] as const;
+
+export const getStartCheckoutMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startCheckout>>, TError,StartCheckoutMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof startCheckout>>, TError,StartCheckoutMutationVariables, TContext> => {
+
+const mutationKey = getStartCheckoutMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startCheckout>>, StartCheckoutMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  startCheckout(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type StartCheckoutMutationResult = NonNullable<Awaited<ReturnType<typeof startCheckout>>>
+    export type StartCheckoutMutationBody = BodyType<CheckoutInput>
+    export type StartCheckoutMutationError = ErrorType<ErrorResponse>
+    export type StartCheckoutMutationVariables = {data: BodyType<CheckoutInput>}
+
+    export const useStartCheckout = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startCheckout>>, TError,StartCheckoutMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof startCheckout>>,
+        TError,
+        StartCheckoutMutationVariables,
+        TContext
+      > => {
+      return useMutation(getStartCheckoutMutationOptions(options));
+    }
+
+export const getVerifyCheckoutUrl = (params: VerifyCheckoutParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/checkout?${stringifiedParams}` : `/api/checkout`
+}
+
+export const verifyCheckout = async (params: VerifyCheckoutParams, options?: Parameters<typeof customFetch>[1]): Promise<CheckoutVerification> => {
+
+  return customFetch<CheckoutVerification>(getVerifyCheckoutUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getVerifyCheckoutQueryKey = (params?: VerifyCheckoutParams,) => {
+    return [
+    `/api/checkout`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getVerifyCheckoutQueryOptions = <TData = Awaited<ReturnType<typeof verifyCheckout>>, TError = ErrorType<ErrorResponse>>(params: VerifyCheckoutParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof verifyCheckout>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getVerifyCheckoutQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof verifyCheckout>>> = ({ signal }) => verifyCheckout(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof verifyCheckout>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type VerifyCheckoutQueryResult = NonNullable<Awaited<ReturnType<typeof verifyCheckout>>>
+export type VerifyCheckoutQueryError = ErrorType<ErrorResponse>
+
+
+
+export function useVerifyCheckout<TData = Awaited<ReturnType<typeof verifyCheckout>>, TError = ErrorType<ErrorResponse>>(
+ params: VerifyCheckoutParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof verifyCheckout>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getVerifyCheckoutQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 

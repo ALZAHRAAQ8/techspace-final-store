@@ -107,7 +107,10 @@
     },
     "outputFileTracingRoot": "/home/runner/workspace",
     "allowedDevOrigins": [
+      "localhost",
+      "127.0.0.1",
       "*.replit.dev",
+      "*.pike.replit.dev",
       "*.replit.app",
       "*.repl.co"
     ],
@@ -365,7 +368,8 @@
     ".next/BUILD_ID",
     ".next/server/next-font-manifest.js",
     ".next/server/next-font-manifest.json",
-    ".next/required-server-files.json"
+    ".next/required-server-files.json",
+    ".next/server/instrumentation.js"
   ],
   "ignore": []
 }

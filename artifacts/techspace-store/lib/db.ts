@@ -17,7 +17,7 @@ const cached = globalThis.techspaceMongooseCache ?? {
 globalThis.techspaceMongooseCache = cached;
 
 export async function connectToDatabase(): Promise<typeof mongoose> {
-  const uri = process.env.MONGODB_URI;
+  const uri = process.env.MONGODB_URI?.trim();
 
   if (!uri) {
     throw new Error("Missing MONGODB_URI in Replit Secrets.");

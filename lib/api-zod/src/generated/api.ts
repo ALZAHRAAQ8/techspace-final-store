@@ -196,3 +196,22 @@ export const CreateOrderResponse = zod.object({
 })
 
 
+export const StartCheckoutBody = zod.object({
+  "orderId": zod.string()
+})
+
+export const StartCheckoutResponse = zod.object({
+  "url": zod.string().url()
+})
+
+
+export const VerifyCheckoutQueryParams = zod.object({
+  "session_id": zod.coerce.string()
+})
+
+export const VerifyCheckoutResponse = zod.object({
+  "orderId": zod.string(),
+  "paid": zod.boolean()
+})
+
+

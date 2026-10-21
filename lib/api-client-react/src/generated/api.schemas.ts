@@ -5,6 +5,19 @@
  * TechSpace storefront, local accounts, and private orders
  * OpenAPI spec version: 0.1.0
  */
+export interface CheckoutInput {
+  orderId: string;
+}
+
+export interface CheckoutRedirect {
+  url: string;
+}
+
+export interface CheckoutVerification {
+  orderId: string;
+  paid: boolean;
+}
+
 export interface HealthStatus {
   status: string;
 }
@@ -118,4 +131,8 @@ export interface PlaceOrderInput {
      */
   items: CartItemInput[];
 }
+
+export type VerifyCheckoutParams = {
+session_id: string;
+};
 

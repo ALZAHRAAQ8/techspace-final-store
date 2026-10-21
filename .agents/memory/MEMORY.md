@@ -1,1 +1,2 @@
 - [Dependency remediation](dependency-remediation.md) — replace unpatched small dependencies with supported built-ins; verify behavior and narrowly scoped overrides.
+- [Store constraints](store-constraints.md) — retain MongoDB coursework persistence and require consistent Stripe accounts.

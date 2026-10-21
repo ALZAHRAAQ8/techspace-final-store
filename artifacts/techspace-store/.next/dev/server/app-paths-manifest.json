@@ -1,5 +1,7 @@
 {
   "/api/auth/me/route": "app/api/auth/me/route.js",
+  "/api/checkout/route": "app/api/checkout/route.js",
   "/api/products/route": "app/api/products/route.js",
+  "/api/stripe/webhook/route": "app/api/stripe/webhook/route.js",
   "/page": "app/page.js"
 }

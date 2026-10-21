@@ -83,10 +83,22 @@
       "namedRegex": "^/api/auth/signup(?:/)?$"
     },
     {
+      "page": "/api/checkout",
+      "regex": "^/api/checkout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/checkout(?:/)?$"
+    },
+    {
       "page": "/api/healthz",
       "regex": "^/api/healthz(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/healthz(?:/)?$"
+    },
+    {
+      "page": "/api/orders",
+      "regex": "^/api/orders(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/orders(?:/)?$"
     },
     {
       "page": "/api/products",
@@ -95,10 +107,22 @@
       "namedRegex": "^/api/products(?:/)?$"
     },
     {
+      "page": "/api/stripe/webhook",
+      "regex": "^/api/stripe/webhook(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/stripe/webhook(?:/)?$"
+    },
+    {
       "page": "/cart",
       "regex": "^/cart(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/cart(?:/)?$"
+    },
+    {
+      "page": "/checkout/success",
+      "regex": "^/checkout/success(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/checkout/success(?:/)?$"
     },
     {
       "page": "/login",

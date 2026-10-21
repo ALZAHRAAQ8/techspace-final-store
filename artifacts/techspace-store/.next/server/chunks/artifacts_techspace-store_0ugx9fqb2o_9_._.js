@@ -1,0 +1,3 @@
+module.exports=[19885,e=>{"use strict";async function n(){{let{initializeStripeSync:n}=await e.A(47598);n().then(()=>console.info("Stripe sync initialized"),()=>console.error("Stripe sync initialization failed; verify Stripe connection and secret belong to the same account."))}}e.s(["register",0,n])},47598,e=>{e.v(n=>Promise.all(["server/chunks/[externals]__0gpe7cri2tbj6._.js","server/chunks/_0rtgj99n_mp4-._.js"].map(n=>e.l(n))).then(()=>n(68853)))}];
+
+//# sourceMappingURL=artifacts_techspace-store_0ugx9fqb2o_9_._.js.map
