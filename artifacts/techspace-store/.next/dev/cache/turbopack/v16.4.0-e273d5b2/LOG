@@ -710,3 +710,32 @@ FAM | META SEQ | SST SEQ         | RANGE
   1 | 00000372 | 00000369 SST    | [==================================================================================================] | 000dfeceb64a51c2-ffe0c7e45ca2f67c (0 MiB, fresh, 514716 bytes, 2041 entries, 0 tombstones)
   2 | 00000373 | 00000368 SST    | [==================================================================================================] | 00f4f1ad5944a45f-ff8d97db4374f154 (0 MiB, fresh, 541872 bytes, 602 entries, 0 tombstones)
   3 | 00000374 | 00000367 SST    | [=================================================================================================]  | 00914f0407ab3df4-fce81d1471cdfe04 (0 MiB, fresh, 801 bytes, 64 entries, 0 tombstones)
+Time 2026-10-21T22:02:40.911333704Z
+Commit 00000380 73 keys in 31ms 369µs 853ns
+FAM | META SEQ | SST SEQ         | RANGE
+  0 | 00000378 | 00000377 SST    |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb (0 MiB, fresh, 38 bytes, 1 entries, 0 tombstones)
+  1 | 00000379 | 00000375 SST    |      [====================================================================================]          | 0dec7781c123b5ed-e79d61bff7b20109 (0 MiB, fresh, 4488 bytes, 6 entries, 0 tombstones)
+  2 | 00000380 | 00000376 SST    |  [=================================================================================================] | 03abc53d27919cee-fe91467e0269d37a (0 MiB, fresh, 7309 bytes, 66 entries, 0 tombstones)
+Time 2026-10-21T22:03:43.387402077Z
+Commit 00000386 6397 keys in 60ms 678µs 583ns
+FAM | META SEQ | SST SEQ         | RANGE
+  0 | 00000384 | 00000383 SST    |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb (0 MiB, fresh, 38 bytes, 1 entries, 0 tombstones)
+  2 | 00000385 | 00000381 SST    | [==================================================================================================] | 007bf0da910111b6-fe91467e0269d37a (0 MiB, fresh, 130711 bytes, 170 entries, 0 tombstones)
+  1 | 00000386 | 00000382 SST    | [==================================================================================================] | 000dfeceb64a51c2-fff177d4c380f66d (1 MiB, fresh, 2018081 bytes, 6226 entries, 0 tombstones)
+  0 | 00000388 | Compaction:
+  0 | 00000388 | MERGE (1 keys):
+  0 | 00000388 | 00000332 INPUT  |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb
+  0 | 00000388 | 00000341 INPUT  |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb
+  0 | 00000388 | 00000351 INPUT  |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb
+  0 | 00000388 | 00000358 INPUT  |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb
+  0 | 00000388 | 00000370 INPUT  |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb
+  0 | 00000388 | 00000377 INPUT  |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb
+  0 | 00000388 | 00000383 INPUT  |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb
+  0 | 00000388 | 00000387 OUTPUT |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb (compacted)
+Time 2026-10-21T22:03:43.456030065Z
+Commit 00000389 1 keys in 17ms 591µs 126ns
+FAM | META SEQ | SST SEQ         | RANGE
+  0 | 00000388 | 00000387 SST    |                                                                             O                        | c44bdff4074eecdb-c44bdff4074eecdb (0 MiB, compacted, 38 bytes, 1 entries, 0 tombstones)
+  0 | 00000388 | 00000332 00000341 00000351 00000358 00000370 00000377 00000383 OBSOLETE SST
+    |          | 00000332 00000341 00000351 00000358 00000370 00000377 00000383 SST DELETED
+    |          | 00000333 00000342 00000352 00000359 00000371 00000378 00000384 META DELETED
